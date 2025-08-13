@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useSignInEmailPassword, useSignUpEmailPassword, useAuthenticationStatus } from '@nhost/react';
-import { useNavigate } from 'react-router-dom'; 
+import {
+  useSignInEmailPassword,
+  useSignUpEmailPassword,
+  useAuthenticationStatus
+} from '@nhost/react';
+import nhost from '../nhost';
+import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 const Auth = () => {
@@ -17,7 +22,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/editor'); 
+      navigate('/editor');
     }
   }, [isAuthenticated, navigate]);
 
@@ -33,6 +38,11 @@ const Auth = () => {
       await signInEmailPassword(email, password);
     }
   };
+
+ const handleGoogleSignIn = () => {
+  nhost.auth.signIn({ provider: 'google' });
+};
+
 
   return (
     <div className="auth-container">
@@ -57,6 +67,19 @@ const Auth = () => {
             disabled={signingIn || signingUp}
           >
             {signingIn || signingUp ? 'Processing...' : isSignUp ? 'Sign Up' : 'Sign In'}
+          </button>
+
+          {/* 🔵 Google Sign-In Button */}
+          <button
+            className="auth-button google-signin"
+            onClick={handleGoogleSignIn}
+            style={{
+              backgroundColor: '#4285F4',
+              color: '#fff',
+              marginTop: '10px'
+            }}
+          >
+            Sign in with Google
           </button>
         </div>
 

@@ -109,7 +109,7 @@ const Editor = () => {
 
   useEffect(() => {
     const loadProject = async () => {
-      if (!projectId) return; // If no projectId → New project mode
+    if (!projectId || projectId === 'new') return; // If no projectId → New project mode
 
       try {
         const query = `
@@ -123,7 +123,9 @@ const Editor = () => {
 
         const { data, error } = await nhost.graphql.request(query, { id: projectId });
 
-        if (error) throw error;
+        if (error) {
+        console.log('Save error:', error); // error from GraphQL
+        throw error};
 
         if (data.portfolios_by_pk) {
           console.log('Loaded project:', data.portfolios_by_pk);

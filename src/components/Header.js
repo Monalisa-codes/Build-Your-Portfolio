@@ -7,11 +7,17 @@ import { jsPDF } from 'jspdf';
 
 const SAVE_PORTFOLIO = gql`
   mutation SavePortfolio($data: jsonb!, $background: String!, $name: String!) {
-    insert_portfolios_one(object: { data: $data, background: $background, name: $name }) {
+    insert_portfolios_one(object: {
+      data: $data,
+      background: $background,
+      name: $name
+    }) {
       id
     }
   }
 `;
+
+
 
 const Header = ({ state, dispatch }) => {
   const navigate = useNavigate();
@@ -49,6 +55,7 @@ const Header = ({ state, dispatch }) => {
         background,
         name, 
       });
+      
 
       if (error) throw error;
 
